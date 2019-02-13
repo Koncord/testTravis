@@ -40,6 +40,8 @@ matrix:
       os: osx
       sudo: required
       osx_image: xcode10.1
+    - name: Wendoze?!
+      os: windows
 
 before_install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then eval "${MATRIX_CC}"; fi
