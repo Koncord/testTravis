@@ -49,4 +49,5 @@ before_install:
 before_script: ./CI/before_script.${TRAVIS_OS_NAME}.sh
 script:
   - cd ./build
-  - cmake --build . -- -j3
+  - if [ "${TRAVIS_OS_NAME}" != "windows" ]; then cmake --build . -- -j3 ;fi
+  - if [ "${TRAVIS_OS_NAME}" == "windows" ]; then cmake --build . ;fi
