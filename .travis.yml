@@ -4,8 +4,11 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages: [
-      # Dev
-      cmake, clang-6.0, clang-tools-6.0, g++-8
+      cmake
+    ]
+  homebrew:
+    packages: [
+     cmake
     ]
 
 matrix:
@@ -14,6 +17,10 @@ matrix:
       os: linux
       env:
         - MATRIX_CC="CC=gcc-8 && CXX=g++-8"
+      addons:
+        apt:
+          packages:
+            - g++-8
       compiler: gcc
       sudo: required
       dist: xenial
@@ -21,9 +28,18 @@ matrix:
       os: linux
       env:
         - MATRIX_CC="CC=clang-6.0 && CXX=clang++-6.0"
+      addons:
+        apt:
+          packages:
+            - clang-6.0
+            - clang-tools-6.0
       compiler: clang
       sudo: required
       dist: xenial
+    - name: Test macOS Clang
+      os: osx
+      sudo: required
+      osx_image: xcode10.1
 
 before_install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then eval "${MATRIX_CC}"; fi
