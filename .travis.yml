@@ -1,8 +1,6 @@
 language: cpp
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages: [
       cmake
     ]
@@ -19,6 +17,8 @@ matrix:
         - MATRIX_CC="CC=gcc-8 && CXX=g++-8"
       addons:
         apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
             - g++-8
       compiler: gcc
