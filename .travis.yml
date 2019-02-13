@@ -10,7 +10,7 @@ addons:
 
 matrix:
   include:
-    - name: Test Xenial GCC-9
+    - name: Test Xenial GCC-8
       os: linux
       env:
         - MATRIX_CC="CC=gcc-8 && CXX=g++-8"
