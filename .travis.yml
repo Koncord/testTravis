@@ -1,10 +1,5 @@
 language: cpp
 
-"os":
-  - linux
-  - osx
-  - windows
-
 addons:
   apt:
     packages: [

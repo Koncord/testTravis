@@ -23,5 +23,10 @@ fi
 
 ARCH_FILE+='.7z'
 
-$CPACK -G 7Z .
-hub release create -da "./$ARCH_FILE" -m "$TRAVIS_TAG" $TRAVIS_TAG
+"$CPACK" -G 7Z .
+CHECK_RELEASES=$(hub release --include-drafts $TRAVIS_TAG)
+if echo "$CHECK_RELEASES" | grep -q "$TRAVIS_TAG"; then
+  hub release edit -da "./$ARCH_FILE" -m "" $TRAVIS_TAG
+else
+  hub release create -da "./$ARCH_FILE" -m "$TRAVIS_TAG" $TRAVIS_TAG
+fi
