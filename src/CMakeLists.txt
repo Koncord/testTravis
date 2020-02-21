@@ -48,7 +48,7 @@ if(WIN32)
         set(CPACK_SYSTEM_NAME win32)
     endif()
 else()
-    set(CPACK_SYSTEM_NAME ${CPACK_SYSTEM_NAME})
+    set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
 endif()
 
 set(CPACK_MONOLITHIC_INSTALL TRUE)
