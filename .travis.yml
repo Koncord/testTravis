@@ -24,6 +24,12 @@ jobs:
             - g++-9
       compiler: gcc
       dist: bionic
+      deploy: &deploy
+        provider:     script
+        script:       bash CI/deploy.sh
+        edge:         true
+        on:
+          tags:       true
     - name: Test Bionic Clang-6
       os: linux
       env:
@@ -38,22 +44,22 @@ jobs:
     - name: Test macOS Clang
       os: osx
       osx_image: xcode11.3
+      deploy:
+        <<: *deploy
     - name: Windows 64-Bit
       os: windows
       env:
         - BUILD_ARCH="x64"
+      deploy:
+        <<: *deploy
     - name: Windows 32-Bit
       os: windows
       env:
         - BUILD_ARCH="x86"
+      deploy:
+        <<: *deploy
 
 before_install: ./CI/before_install.sh
 before_script: ./CI/before_script.sh
 script: ./CI/script.sh
 before_deploy: ./CI/before_deploy.sh
-deploy:
-  - provider:     script
-    script:       bash CI/deploy.sh
-    edge:         true
-    on:
-      tags:       true
