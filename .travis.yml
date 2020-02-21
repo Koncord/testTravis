@@ -4,6 +4,8 @@ addons:
   apt:
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
+      - sourceline: "deb https://apt.kitware.com/ubuntu/ bionic main"
+        key_url: "https://apt.kitware.com/keys/kitware-archive-latest.asc"
     packages: [
       cmake,
       g++-9
