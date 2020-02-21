@@ -2,7 +2,7 @@
 
 cd ./build
 
-cpack -G 7Z .
+CPACK=cpack
 
 ARCH_FILE='testTravisCI-1.2.3-'
 
@@ -14,12 +14,14 @@ if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
   else
     ARCH_FILE+='32'
   fi
+  CPACK='/c/Program Files/CMake/bin/cpack.exe' # chocolatey sets wrong cpack in PATH
 elif [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   ARCH_FILE+='Linux'
 else
-  ARCH_FILE+='macos'
+  ARCH_FILE+='Darwin'
 fi
 
 ARCH_FILE+='.7z'
 
+$CPACK -G 7Z .
 hub release create -da "./$ARCH_FILE" -m "$TRAVIS_TAG" $TRAVIS_TAG
