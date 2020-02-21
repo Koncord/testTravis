@@ -8,7 +8,7 @@ if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
   choco install hub
 elif [ "${TRAVIS_OS_NAME}" = "linux" ]; then
   ARCH_FILE+='linux'
-  snap install hub --classic
+  sudo snap install hub --classic
 else
   ARCH_FILE+='macos'
   brew install hub
@@ -20,4 +20,4 @@ else
   ARCH_FILE+='32'
 fi
 
-chomd +x ../CI/deploy.sh
+chmod +x ../CI/deploy.sh
