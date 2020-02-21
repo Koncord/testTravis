@@ -12,7 +12,7 @@ addons:
     ]
   homebrew:
     packages: [
-     cmake
+      cmake
     ]
 
 jobs:
@@ -57,13 +57,8 @@ before_script: ./CI/before_script.sh
 script: ./CI/script.sh
 before_deploy: ./CI/before_deploy.sh
 deploy:
-    provider:     releases
-    file:         $RELEASE_FILE
-    cleanup:      false
-    overwrite:    true
-    token:        $GITHUB_TOKEN
-    draft:        true
+  - provider:     script
+    script:       bash CI/deploy.sh
     edge:         true
-    name:         $RELEASE_NAME
     on:
       tags:       true
