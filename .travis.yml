@@ -1,4 +1,10 @@
 language: cpp
+
+"os":
+  - linux
+  - osx
+  - windows
+
 addons:
   apt:
     packages: [
@@ -9,9 +15,9 @@ addons:
      cmake
     ]
 
-matrix:
+jobs:
   include:
-    - name: Test Xenial GCC-8
+    - name: Test Bionic GCC-8
       os: linux
       env:
         - MATRIX_CC="CC=gcc-8 && CXX=g++-8"
@@ -20,11 +26,10 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-8
+            - g++-9
       compiler: gcc
-      sudo: required
-      dist: xenial
-    - name: Test Xenial Clang-6
+      dist: bionic
+    - name: Test Bionic Clang-6
       os: linux
       env:
         - MATRIX_CC="CC=clang-6.0 && CXX=clang++-6.0"
@@ -34,12 +39,10 @@ matrix:
             - clang-6.0
             - clang-tools-6.0
       compiler: clang
-      sudo: required
-      dist: xenial
+      dist: bionic
     - name: Test macOS Clang
       os: osx
-      sudo: required
-      osx_image: xcode10.1
+      osx_image: xcode11.3
     - name: Windows 64-Bit
       os: windows
       env:
@@ -52,3 +55,15 @@ matrix:
 before_install: ./CI/before_install.sh
 before_script: ./CI/before_script.sh
 script: ./CI/script.sh
+before_deploy: ./CI/before_deploy.sh
+deploy:
+    provider:     releases
+    file:         $RELEASE_FILE
+    cleanup:      false
+    overwrite:    true
+    token:        $GITHUB_TOKEN
+    draft:        true
+    edge:         true
+    name:         $RELEASE_NAME
+    on:
+      tags:       true
