@@ -28,9 +28,9 @@ ARCH_FILE+='.7z'
 "$CPACK" -G 7Z .
 CHECK_RELEASES=$(hub release --include-drafts TAG_NAME)
 if echo "$CHECK_RELEASES" | grep -q "${TAG_NAME}"; then
-  echo 'Adding new file to release'
-  hub release edit -m '' -da "./$ARCH_FILE" "${TAG_NAME}"
+  echo "Adding new file to release. Tag: ${TAG_NAME}"
+  hub release edit -m '' -a "./$ARCH_FILE" "${TAG_NAME}"
 else
-  echo 'Creating new release'
-  hub release create -m "${TAG_NAME}" -da "./$ARCH_FILE" "${TAG_NAME}"
+  echo "Creating new release. Tag: ${TAG_NAME}"
+  hub release create -m "${TAG_NAME}" -a "./$ARCH_FILE" "${TAG_NAME}"
 fi
