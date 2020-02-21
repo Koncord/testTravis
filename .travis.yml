@@ -2,8 +2,11 @@ language: cpp
 
 addons:
   apt:
+    sources:
+      - sourceline: "ppa:ubuntu-toolchain-r/test"
     packages: [
-      cmake
+      cmake,
+      g++-9
     ]
   homebrew:
     packages: [
@@ -12,35 +15,26 @@ addons:
 
 jobs:
   include:
-    - name: Test Bionic GCC-8
+    - name: Test Bionic x86_64 GCC-9
       os: linux
-      env:
-        - MATRIX_CC="CC=gcc-8 && CXX=g++-8"
-      addons:
-        apt:
-          sources:
-            - sourceline: "ppa:ubuntu-toolchain-r/test"
-          packages:
-            - g++-9
-      compiler: gcc
       dist: bionic
+      arch: amd64
+      compiler: gcc
+      env: &ubuntu_env
+        - MATRIX_CC="CC=gcc-9 && CXX=g++-9"
       deploy: &deploy
         provider:     script
         script:       bash CI/deploy.sh
         edge:         true
         on:
           tags:       true
-    - name: Test Bionic Clang-6
+    - name: Test Bionic AArch64 GCC-9
       os: linux
-      env:
-        - MATRIX_CC="CC=clang-6.0 && CXX=clang++-6.0"
-      addons:
-        apt:
-          packages:
-            - clang-6.0
-            - clang-tools-6.0
-      compiler: clang
       dist: bionic
+      arch: arm64
+      compiler: gcc
+      env:
+        - *ubuntu_env
     - name: Test macOS Clang
       os: osx
       osx_image: xcode11.3
