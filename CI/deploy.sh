@@ -18,7 +18,7 @@ if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
   fi
   CPACK='/c/Program Files/CMake/bin/cpack.exe' # chocolatey sets wrong cpack in PATH
 elif [ "${TRAVIS_OS_NAME}" = "linux" ]; then
-  ARCH_FILE+='Linux'
+  ARCH_FILE+="Linux-$(uname -m)"
 else
   ARCH_FILE+='Darwin'
 fi
