@@ -3,8 +3,10 @@
 cd ./build
 
 CPACK=cpack
+COMMIT_HASH=$(git rev-parse HEAD)
+TAG_NAME=$(git describe --tags)
 
-ARCH_FILE='testTravisCI-1.2.3-'
+ARCH_FILE="testTravisCI-${TAG_NAME}-${COMMIT_HASH}-"
 
 # Windows specific options
 if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
@@ -24,11 +26,11 @@ fi
 ARCH_FILE+='.7z'
 
 "$CPACK" -G 7Z .
-CHECK_RELEASES=$(hub release --include-drafts $TRAVIS_TAG)
-if echo "$CHECK_RELEASES" | grep -q "$TRAVIS_TAG"; then
+CHECK_RELEASES=$(hub release --include-drafts TAG_NAME)
+if echo "$CHECK_RELEASES" | grep -q "${TAG_NAME}"; then
   echo 'Adding new file to release'
-  hub release edit -m '' -da "./$ARCH_FILE" $TRAVIS_TAG
+  hub release edit -m '' -da "./$ARCH_FILE" "${TAG_NAME}"
 else
   echo 'Creating new release'
-  hub release create -m "$TRAVIS_TAG" -da "./$ARCH_FILE" $TRAVIS_TAG
+  hub release create -m "${TAG_NAME}" -da "./$ARCH_FILE" "${TAG_NAME}"
 fi
